@@ -1,0 +1,84 @@
+{
+  "name": "lib-consumer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/lib-consumer/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/lib-consumer",
+        "index": "apps/lib-consumer/src/index.html",
+        "baseHref": "/",
+        "main": "apps/lib-consumer/src/main.tsx",
+        "polyfills": "apps/lib-consumer/src/polyfills.ts",
+        "tsConfig": "apps/lib-consumer/tsconfig.app.json",
+        "assets": [
+          "apps/lib-consumer/src/favicon.ico",
+          "apps/lib-consumer/src/assets"
+        ],
+        "styles": ["apps/lib-consumer/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/lib-consumer/src/environments/environment.ts",
+              "with": "apps/lib-consumer/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "lib-consumer:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lib-consumer:build:development"
+        },
+        "production": {
+          "buildTarget": "lib-consumer:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/lib-consumer/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/lib-consumer/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
